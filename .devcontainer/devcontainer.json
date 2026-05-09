@@ -1,0 +1,14 @@
+{
+  "name": "springboot-batch-cursor",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "devcontainer",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [9092],
+  "extensions": [
+    "vscjava.vscode-java-pack",
+    "redhat.vscode-yaml"
+  ],
+  "postCreateCommand": "./gradlew --no-daemon --refresh-dependencies build || true",
+  "remoteUser": "vscode"
+}
