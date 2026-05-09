@@ -181,8 +181,7 @@ public class CustomerServiceImpl implements CustomerService {
         // deleteAllInBatch issues a single DELETE statement instead of loading rows,
         // which avoids assigned-ID merge issues and is far faster for bulk cleanup.
         customerRepository.deleteAllInBatch();
-        entityManager.flush();
-        entityManager.clear();
+        flushAndClear();
         log.info("All customers deleted");
     }
 
@@ -228,12 +227,10 @@ public class CustomerServiceImpl implements CustomerService {
                 if (totalInserted % chunkSize == 0) {
                     log.info("Flushing chunk: {} rows inserted so far", totalInserted);
                     entityManager.flush();
-                    entityManager.clear();
-                }
+                    flushAndC
             }
 
-            entityManager.flush();
-            entityManager.clear();
+            flushAndClear();
             log.info("CSV batch import completed. Total rows inserted: {}", totalInserted);
             return totalInserted;
         } catch (CsvBatchProcessingException e) {
@@ -297,5 +294,10 @@ public class CustomerServiceImpl implements CustomerService {
      */
     private boolean isBlankRow(String[] line) {
         return Arrays.stream(line).noneMatch(StringUtils::isNotBlank);
+    }
+
+    private void flushAndClear() {
+        entityManager.flush();
+        entityManager.clear();
     }
 }
