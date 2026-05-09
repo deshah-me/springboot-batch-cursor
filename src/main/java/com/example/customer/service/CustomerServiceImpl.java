@@ -226,8 +226,8 @@ public class CustomerServiceImpl implements CustomerService {
 
                 if (totalInserted % chunkSize == 0) {
                     log.info("Flushing chunk: {} rows inserted so far", totalInserted);
-                    entityManager.flush();
-                    flushAndC
+                    flushAndClear();
+                }
             }
 
             flushAndClear();
