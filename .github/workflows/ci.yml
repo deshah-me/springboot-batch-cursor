@@ -16,6 +16,9 @@ on:
       - 'settings.gradle'
       - '.github/workflows/ci.yml'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 permissions:
   actions: read
   contents: read
