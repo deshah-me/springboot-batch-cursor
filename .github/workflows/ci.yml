@@ -3,8 +3,20 @@ name: CI
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - '.github/workflows/ci.yml'
+      - '.github/workflows/codeql.yml'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'src/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - '.github/workflows/ci.yml'
+      - '.github/workflows/codeql.yml'
 
 jobs:
   # ==================== LINTING & VALIDATION ====================
