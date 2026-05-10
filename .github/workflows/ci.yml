@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for commitlint
+          fetch-depth: 0
 
       - name: Setup Node.js for commitlint
         uses: actions/setup-node@v4
@@ -47,14 +47,24 @@ jobs:
 
       - name: Code style check (Google Java Format)
         run: |
-          # Check if Google Java Format rules are applied
           echo "Running code style validation..."
         continue-on-error: true
+
+  # ==================== SECURITY ANALYSIS (CodeQL) ====================
+  codeql:
+    name: Security Analysis
+    needs: validate
+    uses: ./.github/workflows/codeql.yml
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+      packages: read
 
   # ==================== BUILD PHASE ====================
   build:
     runs-on: ubuntu-latest
-    needs: validate
+    needs: codeql
     timeout-minutes: 30
     services:
       mysql:
@@ -196,9 +206,3 @@ jobs:
         with:
           files: build/test-results/test/*.xml
         continue-on-error: true
-
-  # ==================== SECURITY ANALYSIS (CodeQL) ====================
-  codeql:
-    name: Security Analysis
-    needs: test
-    uses: ./.github/workflows/codeql.yml

@@ -1,20 +1,6 @@
 name: CodeQL Security Analysis
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'src/**'
-      - 'build.gradle'
-      - 'settings.gradle'
-      - '.github/workflows/codeql.yml'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'src/**'
-      - 'build.gradle'
-      - 'settings.gradle'
-      - '.github/workflows/codeql.yml'
   workflow_call:
 
 permissions:
@@ -26,7 +12,7 @@ permissions:
 jobs:
   codeql-analyze:
     name: CodeQL Analysis (${{ matrix.language }})
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    runs-on: ubuntu-latest
     permissions:
       security-events: write
       packages: read
