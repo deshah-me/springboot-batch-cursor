@@ -1,0 +1,42 @@
+repos:
+  # Detect secrets in code
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--allow-missing-credentials']
+
+  # General file formatting
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: debug-statements
+
+  # Java formatting (if google-java-format is installed)
+  - repo: https://github.com/google/google-java-format
+    rev: v1.17.0
+    hooks:
+      - id: google-java-format
+        args: ['--skip-sorting-imports', '--replace']
+        stages: [commit]
+
+  # Markdown
+  - repo: https://github.com/igorshub/pymarkdownlnt
+    rev: v0.9.13.5
+    hooks:
+      - id: pymarkdownlnt
+        args: ['--disable', 'MD013']
+        files: '\.md$'
+
+  # YAML & Docker
+  - repo: https://github.com/hadialqattan/pyyaml-action
+    rev: v1.0.0
+    hooks:
+      - id: yaml-check
+        args: ['--unsafe']

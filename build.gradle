@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.12'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
 }
 
 group = 'com.example'
@@ -33,4 +34,32 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// JaCoCo Code Coverage Configuration
+jacoco {
+	toolVersion = '0.8.10'
+}
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.required = true
+		csv.required = false
+		html.required = true
+	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+				'**/config/**',
+				'**/entity/**',
+				'**/dto/**',
+				'**/exception/**'
+			])
+		}))
+	}
+}
+
+test {
+	finalizedBy jacocoTestReport
 }
