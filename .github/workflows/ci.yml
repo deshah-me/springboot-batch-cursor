@@ -8,7 +8,6 @@ on:
       - 'build.gradle'
       - 'settings.gradle'
       - '.github/workflows/ci.yml'
-      - '.github/workflows/codeql.yml'
   pull_request:
     branches: [ main ]
     paths:
@@ -16,7 +15,6 @@ on:
       - 'build.gradle'
       - 'settings.gradle'
       - '.github/workflows/ci.yml'
-      - '.github/workflows/codeql.yml'
 
 jobs:
   # ==================== LINTING & VALIDATION ====================
@@ -192,3 +190,8 @@ jobs:
         with:
           files: build/test-results/test/*.xml
         continue-on-error: true
+
+  # ==================== CALL CODEQL WORKFLOW ====================
+  run-codeql:
+    needs: test
+    uses: ./.github/workflows/codeql.yml
