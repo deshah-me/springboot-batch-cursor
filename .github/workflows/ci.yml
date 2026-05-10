@@ -16,11 +16,17 @@ jobs:
         with:
           fetch-depth: 0  # Full history for commitlint
 
-      - name: Validate conventional commits
-        uses: commitlint-action/commitlint-action@v1
+      - name: Setup Node.js for commitlint
+        uses: actions/setup-node@v4
         with:
-          configFile: '.commitlintrc.json'
-          failOnWarnings: false
+          node-version: '18'
+
+      - name: Install commitlint
+        run: |
+          npm install --save-dev @commitlint/config-conventional @commitlint/cli
+
+      - name: Validate conventional commits
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha || 'origin/main' }} --to HEAD
         continue-on-error: true
 
       - name: Code style check (Google Java Format)
